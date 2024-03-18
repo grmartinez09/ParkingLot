@@ -145,6 +145,7 @@ namespace ParkingLotSytem
                 {
                     if (level.HasAvailableSpot(vehicle))
                     {
+                        level.ParkVehicle(vehicle);
                         return true;
                     }
                 }
