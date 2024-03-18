@@ -43,22 +43,41 @@ namespace ParkingLotSytem
             }
             public bool CanFitVehicle(Vehicle vehicle)
             {
-                bool canFitVehicle = false;
-                if(isAvailable())
+                if (ParkedVehicle != null)
                 {
-                    if (vehicle.Size == VehicleSize.Motorcycle)
-                    {
-                        canFitVehicle = true;
-                    }
-                    else if (vehicle.Size == VehicleSize.Compact)
-                    {
-                        canFitVehicle = true;
-                    }
-                    else if (vehicle.Size == VehicleSize.Large)
-                    {
-                        canFitVehicle = true;
-                    }
+                    return false;
                 }
+                if (vehicle.Size == VehicleSize.Motorcycle)
+                {
+                    return true;
+                }
+                if (vehicle.Size == VehicleSize.Compact && ParkedVehicle.Size != VehicleSize.Large)
+                {
+                    return true;
+                }
+                if (vehicle.Size == VehicleSize.Large)
+                {
+                    return true;
+                }
+                return false;
+            }
+            public bool ParkVehicle(Vehicle vehicle)
+            {
+                if (CanFitVehicle(vehicle))
+                {
+                    ParkedVehicle = vehicle;
+                    return true;
+                }
+                return false;
+            }
+            public bool RemoveVehicle()
+            {
+                ParkedVehicle = null;
+                return true;
+            }
+            public Vehicle GetVehicle()
+            {
+                return ParkedVehicle;
             }
             
         }   
@@ -103,6 +122,40 @@ namespace ParkingLotSytem
                     if (spot.ParkedVehicle == vehicle)
                     {
                         spot.ParkedVehicle = null;
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        class ParkingLot
+        {
+            List<Level> levels;
+            public ParkingLot(int numLevels, int numSpots)
+            {
+                levels = new List<Level>(numLevels);
+                for (int i = 0; i < numLevels; i++)
+                {
+                    this.levels.Add(new Level(numSpots));
+                }
+            }
+            public bool ParkVehicle(Vehicle vehicle)
+            {
+                foreach (Level level in levels)
+                {
+                    if (level.HasAvailableSpot(vehicle))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            public bool RemoveVehicle(Vehicle vehicle)
+            {
+                foreach (Level level in levels)
+                {
+                    if (level.RemoveVehicle(vehicle))
+                    {
                         return true;
                     }
                 }
