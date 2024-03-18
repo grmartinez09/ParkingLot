@@ -48,10 +48,15 @@ namespace ParkingLotSytem
                 {
                     if (vehicle.Size == VehicleSize.Motorcycle)
                     {
-                        if (vehicle.Size == VehicleSize.Compact || vehicle.Size == VehicleSize.Large)
-                        {
-                            canFitVehicle = true;
-                        }
+                        canFitVehicle = true;
+                    }
+                    else if (vehicle.Size == VehicleSize.Compact)
+                    {
+                        canFitVehicle = true;
+                    }
+                    else if (vehicle.Size == VehicleSize.Large)
+                    {
+                        canFitVehicle = true;
                     }
                 }
                 return canFitVehicle;
