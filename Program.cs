@@ -43,23 +43,18 @@ namespace ParkingLotSytem
             }
             public bool CanFitVehicle(Vehicle vehicle)
             {
-                if (ParkedVehicle != null)
+                bool canFitVehicle = false;
+                if(isAvailable())
                 {
-                    return false;
+                    if (vehicle.Size == VehicleSize.Motorcycle)
+                    {
+                        if (vehicle.Size == VehicleSize.Compact || vehicle.Size == VehicleSize.Large)
+                        {
+                            canFitVehicle = true;
+                        }
+                    }
                 }
-                if (vehicle.Size == VehicleSize.Motorcycle)
-                {
-                    return true;
-                }
-                if (vehicle.Size == VehicleSize.Compact && ParkedVehicle.Size != VehicleSize.Large)
-                {
-                    return true;
-                }
-                if (vehicle.Size == VehicleSize.Large)
-                {
-                    return true;
-                }
-                return false;
+                return canFitVehicle;
             }
             public bool ParkVehicle(Vehicle vehicle)
             {
